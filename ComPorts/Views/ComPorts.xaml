@@ -1,0 +1,213 @@
+﻿<Window x:Class="ComPorts.Views.ComPorts"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ComPorts.Views"
+        xmlns:viewmodels="clr-namespace:ComPorts.ViewModels"
+        xmlns:converters="clr-namespace:ComPorts.Converters"
+        mc:Ignorable="d"
+        Title="Com ports" Height="360" Width="450"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <converters:BoolInvertionConverter x:Key="BoolInvertionConverter" />
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:BoolToLedColorConverter x:Key="BoolToLedColorConverter" />
+    </Window.Resources>
+    <Window.DataContext>
+        <viewmodels:ComPortsViewModel />
+    </Window.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="55"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="140"></ColumnDefinition>
+                <ColumnDefinition Width="140"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <!-- Ports -->
+            <Label
+                Grid.Column="0"    
+                Content="Ports"
+                VerticalAlignment="Center" HorizontalAlignment="Center"
+                FontSize="15" FontWeight="SemiBold"/>
+            <ComboBox 
+                Grid.Column="1"
+                ItemsSource="{Binding Ports}"
+                SelectedItem="{Binding SelectedPort}"
+                IsEnabled="{Binding IsPortActivated, Converter={StaticResource BoolInvertionConverter}}"
+                Height="25" Width="65"
+                VerticalAlignment="Center" HorizontalAlignment="Left"
+                Margin="0 3 0 0"/>
+            <!-- Activate -->
+            <Button
+                Grid.Column="2"
+                Content="Activate"
+                FontSize="15"
+                FontWeight="SemiBold"
+                Command="{Binding Activate}">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#BDF7B7"></Setter>
+                        <Setter Property="Cursor" Value="Hand" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FFADFCA4"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Height="30" Width="128"
+                                CornerRadius="10"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter 
+                                VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <!-- Deactivate -->
+            <Button
+                Grid.Column="3"
+                Command="{Binding Deactivate}"
+                Content="Deactivate"
+                FontSize="15"
+                FontWeight="SemiBold">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#FFEDA992"></Setter>
+                        <Setter Property="Cursor" Value="Hand" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FFF49C7E"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Height="30" Width="128"
+                                CornerRadius="10"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter 
+                                VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
+        <!-- Algorithms -->
+        <Grid
+            Grid.Row="1"
+            Visibility="{Binding IsPortActivated, Converter={StaticResource BoolToVisibilityConverter}}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <!-- Algorithm 1 -->
+            <Button
+                Grid.Row="0"
+                Command="{Binding RunFirstAlgorithm}"
+                Content="Algorithm 1"
+                FontSize="20"
+                FontWeight="SemiBold"
+                VerticalAlignment="Bottom"
+                Margin="0 0 0 10">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#FFB8C0B7"></Setter>
+                        <Setter Property="Cursor" Value="Hand" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FFACB4AA"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Height="70" Width="200"
+                                CornerRadius="25"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter 
+                                VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <!-- Algorithm 1 -->
+            <Button
+                Grid.Row="1"
+                Command="{Binding RunSecondAlgorithm}"
+                Content="Algorithm 2"
+                FontSize="20"
+                FontWeight="SemiBold"
+                VerticalAlignment="Top"
+                Margin="0 10 0 0">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#FFB8C0B7"></Setter>
+                        <Setter Property="Cursor" Value="Hand" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FFACB4AA"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Height="70" Width="200"
+                                CornerRadius="25"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter 
+                                VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <!-- Leds -->
+            <ListView Grid.Row="2"
+                      ItemsSource="{Binding Leds}"
+                      HorizontalAlignment="Center" VerticalAlignment="Top"
+                      Width="306" Height="35"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                      BorderThickness="0">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="BorderThickness" Value="0" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Width="30" Height="30">
+                            <Border Width="25" Height="25" CornerRadius="12.5"
+                                    Background="{Binding IsActivated, Converter={StaticResource BoolToLedColorConverter}}"/>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <!-- Hover blocker (haven't come with something smarter) -->
+            <Border Grid.Row="2" Width="450" Background="Transparent"/>
+        </Grid>
+    </Grid>
+</Window>
